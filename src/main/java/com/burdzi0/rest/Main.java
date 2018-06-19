@@ -36,8 +36,8 @@ public class Main {
 		manager.getTransaction().begin();
 		Query q = manager.createNativeQuery("CREATE TABLE USERS(ID INT PRIMARY KEY AUTO_INCREMENT , NAME VARCHAR(255), AGE INT);");
 		q.executeUpdate();
-		manager.persist(new User("Łukasz", 999));
-		manager.persist(new User("Wiktoria", 998));
+		manager.persist(new User("XYZ", 999));
+		manager.persist(new User("ABC", 998));
 		manager.getTransaction().commit();
 		manager.close();
 	}
