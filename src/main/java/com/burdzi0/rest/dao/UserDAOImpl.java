@@ -13,12 +13,14 @@ public class UserDAOImpl implements UserDAO{
 
 	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("UsersUnit");
 
+	public UserDAOImpl(EntityManagerFactory factory) {
+		this.factory = factory;
+	}
+
 	@Override
 	public Optional<User> getUserByID(long id) {
 		EntityManager manager = factory.createEntityManager();
-		manager.getTransaction().begin();
 		User user = manager.find(User.class, id);
-		manager.getTransaction().commit();
 		return Optional.ofNullable(user);
 	}
 
