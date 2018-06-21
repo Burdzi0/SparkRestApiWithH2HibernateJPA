@@ -3,15 +3,14 @@ package com.burdzi0.rest;
 import com.burdzi0.rest.controller.UserController;
 import com.burdzi0.rest.dao.UserDAO;
 import com.burdzi0.rest.dao.UserDAOImpl;
-import com.burdzi0.rest.response.JSONResponseTransformer;
 import spark.Redirect;
-import spark.Request;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 
-import static spark.Spark.*;
+import static spark.Spark.port;
+import static spark.Spark.redirect;
 
 public class Main {
 
