@@ -4,6 +4,8 @@ import com.burdzi0.rest.dao.UserDAO;
 import com.burdzi0.rest.dao.UserDAOImpl;
 import com.burdzi0.rest.model.User;
 import com.burdzi0.rest.response.JSONResponseTransformer;
+import spark.Redirect;
+import spark.Request;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,8 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static spark.Spark.get;
-import static spark.Spark.port;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -27,15 +28,27 @@ public class Main {
 		main.start();
 		port(8080);
 
-		get("/", (request, response) -> userDAO.getAllUsers(),
+		get("/user", (request, response) -> userDAO.getAllUsers(),
 				new JSONResponseTransformer());
+
+		get("/user/:id", (request, response) ->
+				userDAO.getUserByID(getIdFromParam(request))
+						.orElseGet(() -> {
+							response.redirect("/user");
+							return null;
+						}),
+				new JSONResponseTransformer());
+
+		redirect.get("/*", "/user", Redirect.Status.MOVED_PERMANENTLY);
+	}
+
+	private static long getIdFromParam(Request request) {
+		return Long.parseLong(request.params(":id"));
 	}
 
 	private void start() throws IOException {
 		EntityManager manager = sessionFactory.createEntityManager();
 		manager.getTransaction().begin();
-//		Query q = manager.createNativeQuery("CREATE TABLE USERS(ID INT PRIMARY KEY AUTO_INCREMENT , NAME VARCHAR(255), AGE INT);");
-//		q.executeUpdate();
 		Query q = manager.createNativeQuery(getSQLFileContent());
 		q.executeUpdate();
 		manager.persist(new User("XYZ", 999));

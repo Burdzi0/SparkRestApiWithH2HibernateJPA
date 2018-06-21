@@ -7,10 +7,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO{
 
 	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("UsersUnit");
+
+	@Override
+	public Optional<User> getUserByID(long id) {
+		EntityManager manager = factory.createEntityManager();
+		manager.getTransaction().begin();
+		User user = manager.find(User.class, id);
+		manager.getTransaction().commit();
+		return Optional.ofNullable(user);
+	}
 
 	public List<User> getAllUsers() {
 		EntityManager manager = factory.createEntityManager();
