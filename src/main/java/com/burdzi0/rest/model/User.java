@@ -12,17 +12,21 @@ public class User {
 
 	private String name;
 
+	private String password;
+	private boolean admin;
 	private int age;
 
 	public User() {
 	}
 
-	public User(String name, int age) {
+	public User(String name, String password, boolean admin, int age) {
 		this.name = name;
+		this.password = password;
+		this.admin = admin;
 		this.age = age;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -30,24 +34,31 @@ public class User {
 		return name;
 	}
 
-	public int getAge() {
-		return age;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
+	public String getPassword() {
+		return password;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", age=" + age +
-				'}';
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 }

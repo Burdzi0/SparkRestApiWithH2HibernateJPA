@@ -18,7 +18,13 @@ public class UserController {
 
 	private void userGET() {
 		get("/user", (request, response) -> userDAO.getAllUsers(),
-				new JSONResponseTransformer());
+				new JSONResponseTransformer()
+		);
+
+		get("/user/admin", (request, response) ->
+						userDAO.getAllAdmins(),
+				new JSONResponseTransformer()
+		);
 
 		get("/user/:id", (request, response) ->
 				userDAO.getUserByID(getIdFromParam(request))
@@ -27,7 +33,6 @@ public class UserController {
 							return null;
 						}),
 				new JSONResponseTransformer());
-
 	}
 
 	private long getIdFromParam(Request request) {

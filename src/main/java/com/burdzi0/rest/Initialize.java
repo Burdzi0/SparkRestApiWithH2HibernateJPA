@@ -24,8 +24,8 @@ public class Initialize {
 		manager.getTransaction().begin();
 		Query q = manager.createNativeQuery(getSQLFileContent());
 		q.executeUpdate();
-		manager.persist(new User("XYZ", 999));
-		manager.persist(new User("ABC", 998));
+		manager.persist(new User("XYZ", "PASSWORD", true, 999));
+		manager.persist(new User("ABC", "PASSWORD1", true, 998));
 		manager.getTransaction().commit();
 		manager.close();
 	}

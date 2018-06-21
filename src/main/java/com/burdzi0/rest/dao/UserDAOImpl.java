@@ -6,6 +6,9 @@ import org.hibernate.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,18 @@ public class UserDAOImpl implements UserDAO{
 		EntityManager manager = factory.createEntityManager();
 		Session session = manager.unwrap(Session.class);
 		return (List<User>) session.createQuery("from User").list();
+	}
+
+	@Override
+	public List<User> getAllAdmins() {
+		CriteriaBuilder criteriaBuilder = factory.getCriteriaBuilder();
+		CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+		Root<User> root = criteriaQuery.from(User.class);
+		criteriaQuery.select(root);
+		criteriaQuery.where(criteriaBuilder.equal(root.get("admin"), Boolean.TRUE));
+
+		return factory.createEntityManager()
+				.createQuery(criteriaQuery).getResultList();
 	}
 
 	public void addUser(User user) {
