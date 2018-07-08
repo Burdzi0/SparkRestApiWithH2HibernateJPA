@@ -8,7 +8,6 @@ import java.util.Optional;
 public interface UserDAO {
 	Optional<User> getUserByID(long id);
 	List<User> getAllUsers();
-
 	List<User> getAllAdmins();
 	void addUser(User user);
 	void deleteUser(User user);

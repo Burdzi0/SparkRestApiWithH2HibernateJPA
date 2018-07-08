@@ -3,9 +3,9 @@ package com.burdzi0.rest.dao;
 import com.burdzi0.rest.model.User;
 import org.hibernate.Session;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,8 +14,9 @@ import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO{
 
-	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("UsersUnit");
+	private EntityManagerFactory factory;
 
+	@Inject
 	public UserDAOImpl(EntityManagerFactory factory) {
 		this.factory = factory;
 	}
@@ -55,7 +56,7 @@ public class UserDAOImpl implements UserDAO{
 	public void deleteUser(User user) {
 		EntityManager manager = factory.createEntityManager();
 		manager.getTransaction().begin();
-		manager.remove(user);
+		manager.remove(manager.contains(user) ? user : manager.merge(user));
 		manager.flush();
 		manager.getTransaction().commit();
 	}
